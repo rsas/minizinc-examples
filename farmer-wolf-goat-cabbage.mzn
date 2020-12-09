@@ -44,7 +44,7 @@ predicate passenger_moves(var PASSENGER: p, var STEP: s) =
               var LOC: last_pos = loc[p,s-1];
               var LOC: new_pos = loc[p,s]; } in
               last_pos != new_pos -> farmer_last_pos = last_pos /\ farmer_new_pos = new_pos;
-% Constrain all passengers (farmer and its purchases).
+% Constrain all passengers (farmer and his purchases).
 constraint forall(p in PASSENGER, s in STEP)(passenger_moves(p, s));
 
 % Never leave the wolf with the goat or the goat with the cabbage alone.
@@ -52,7 +52,7 @@ constraint forall(s in STEP)(wolfLoc[s] = goatLoc[s] \/ goatLoc[s] = cabbageLoc[
                              -> farmerLoc[s] = goatLoc[s]);
 
 % The farmer can carry only himself and a single one of his purchases.
-% If the location of the farmer changes, at most one purchases can change its location as well.
+% If the location of the farmer changes, at most one purchase can change its location as well.
 constraint forall(s in STEP)
                  (farmerLoc[s-1] != farmerLoc[s] -> sum(p in PASSENGER where p != Farmer)
                                                        (loc[p,s-1] != loc[p,s]) <= 1);
